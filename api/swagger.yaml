@@ -1,0 +1,78 @@
+swagger: "2.0"
+info:
+  title: Sample API
+  description: API description in Markdown
+  version: 1.0.0
+basePath: /swag
+
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+    description: |
+      Accessing required token
+
+paths:
+  /login:
+    x-swagger-router-controller: "loginController"
+    post:
+      tags:
+        - userAuth
+      summary: ""
+      description: "T"
+      operationId: "login"
+
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+
+      parameters:
+        # - in: 'header'
+        #   name: "Authorization"
+        #   type: "string"
+        #   required: true
+        #   description: 'auth_key'
+        - in: 'body'
+          name: "body"
+          required: true
+          description: 'Form data'
+          schema:
+            $ref: "#/definitions/userParams"
+
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+definitions:
+  userParams:
+    type: object
+    properties:
+      username:
+        type: string
+
+  ApiResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      data:
+        type: object
+    example:
+      code: 0
+      data: '{"response": "api_response_data"}'
+
+  ErrorResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
